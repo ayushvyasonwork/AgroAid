@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgroAid</title>
+    <link rel="stylesheet" href="../static/style.css" />
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Show loader animation
+        document.getElementById("loader").style.display = "block";
+        document.getElementById("loader2").style.display = "block";
+
+        // Fetch news data asynchronously
+        fetch("/fetch-news")
+          .then((response) => response.json())
+          .then((news) => {
+            // Hide loader animation
+            document.getElementById("loader").style.display = "none";
+
+            // Display news
+            const newsList = document.getElementById("news-list");
+            news.forEach((headline) => {
+              const li = document.createElement("li");
+              li.textContent = headline;
+              newsList.appendChild(li);
+            });
+          })
+          .catch((error) => console.error("Error fetching news:", error));
+
+        // Fetch scheme data asynchronously
+        fetch("/fetch-schemes")
+          .then((response) => response.json())
+          .then((schemes) => {
+            // Hide loader animation
+            document.getElementById("loader2").style.display = "none";
+
+            // Display schemes
+            const schemeList = document.getElementById("scheme-list");
+            schemes.forEach((scheme) => {
+              const li = document.createElement("li");
+              const h2 = document.createElement("h2");
+              const p = document.createElement("p");
+              li.textContent = `${scheme.name}`;
+              p.textContent = `${scheme.purpose}`;
+              schemeList.appendChild(li);
+              li.appendChild(h2);
+              li.appendChild(p);
+            });
+          })
+          .catch((error) => console.error("Error fetching schemes:", error));
+      });
+
+      function showCropList() {
+        var cropList = document.getElementById("crop-list");
+        cropList.style.display = "block";
+      }
+
+      function selectCrop(crop) {
+        var selectedCrop = crop.textContent;
+        var cropList = document.getElementById("crop-list");
+        document.getElementById("cropInput").value = selectedCrop;
+        cropList.style.display = "none";
+
+        // Send selected crop value to Flask backend
+        fetch("/fetch-msp", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ crop: selectedCrop }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const mspData = document.querySelector(".mspdata");
+            mspData.innerHTML = data.row; // Append received row to the table
+            mspData.innerHTML =
+              mspData.innerHTML.slice(0, selectedCrop.length + 1) +
+              " Current MSP is: ₹" +
+              mspData.innerHTML.slice(-40, -20);
+          })
+          .catch((error) => console.error("Error fetching MSP:", error));
+      }
+
+      function filterCrops() {
+        var input, filter, ul, li, i, txtValue;
+        input = document.getElementById("cropInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("crop-list");
+        li = ul.getElementsByTagName("li");
+
+        for (i = 0; i < li.length; i++) {
+          txtValue = li[i].textContent || li[i].innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+          } else {
+            li[i].style.display = "none";
+          }
+        }
+      }
+    </script>
+  </head>
+  <body style="background-color: black">
+    <header style="background-color: black">
+      <div class="flex1">
+        <div class="image">
+          <img src="../static/images/logo.png" />
+        </div>
+        <div class="other-side" style="display: flex">
+          <span class="nav" style="display: flex">
+            <a class="navb">Home</a>
+            <a href="{{ url_for('dashboard') }}" class="navb">Dashboard</a>
+          </span>
+          <div class="auth">
+            {% if logged_in %}
+            <a href="{{ url_for('logout') }}" class="log-button">Logout</a>
+            {% else %}
+            <a href="{{ url_for('login') }}" class="log-button">Login</a>
+            <a href="{{ url_for('signup') }}" class="log-button">SignUp</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <hr />
+    <div class="back">
+      <div class="masked">
+        <div class="container" style="color: white">
+          <div class="scroll"  style="padding: 0px 3% 0px 0px;" >
+            <h1 style="font-size: 3em;" class="decor">Farmer's HelpDesk</h1>
+
+            <div class="carousel-wrapper">
+              <div class="carousel-container">
+                <div class="carousel">
+                  <div class="image-one">
+                    <div class="mask"></div>
+                  </div>
+                  <div class="image-two">
+                    <div class="mask"></div>
+                  </div>
+                  <div class="image-three">
+                    <div class="mask"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex marg">
+              <div class="news">
+                <h2>Top headlines in the field</h2>
+                <ul id="news-list"></ul>
+                <div id="loader" style="display: none"></div>
+              </div>
+              <div class="helps">
+                <div class="schemes">
+                  <h2 class="decor">Government Schemes</h2>
+                  <ul id="scheme-list"></ul>
+                  <div id="loader2" style="display: none"></div>
+                </div>
+
+                <div class="schemes msp">
+                  <h2 class="decor">
+                    Be updated with the latest MSP of your crops (Rs. quintals)
+                  </h2>
+                  <input
+                    type="search"
+                    id="cropInput"
+                    placeholder="Search for crops..."
+                    onclick="showCropList()"
+                    onkeyup="filterCrops()"
+                  />
+                  <ul id="crop-list">
+                    <li onclick="selectCrop(this)">PADDY</li>
+                    <li onclick="selectCrop(this)">JOWAR</li>
+                    <li onclick="selectCrop(this)">BAJRA</li>
+                    <li onclick="selectCrop(this)">MAIZE</li>
+                    <li onclick="selectCrop(this)">RAGI</li>
+                    <li onclick="selectCrop(this)">Tur (Arhar)</li>
+                    <li onclick="selectCrop(this)">MOONG</li>
+                    <li onclick="selectCrop(this)">URAD</li>
+                    <li onclick="selectCrop(this)">COTTON</li>
+                    <li onclick="selectCrop(this)">Groundnut</li>
+                    <li onclick="selectCrop(this)">SUNFLOWER SEED</li>
+                    <li onclick="selectCrop(this)">SOYABEAN</li>
+                    <li onclick="selectCrop(this)">SESAMUM</li>
+                    <li onclick="selectCrop(this)">NIGERSEED</li>
+                    <li onclick="selectCrop(this)">BARLEY</li>
+                    <li onclick="selectCrop(this)">MASUR (LENTIL)</li>
+                    <li onclick="selectCrop(this)">SAFFLOWER</li>
+                    <li onclick="selectCrop(this)">TORIA</li>
+                    <li onclick="selectCrop(this)">JUTE</li>
+                    <li onclick="selectCrop(this)">Groundnut</li>
+                  </ul>
+                  <div class="mspdata"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

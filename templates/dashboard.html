@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="../static/style.css" />
+  <!-- Include Chart.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <!-- Include jQuery library -->
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js" type="module"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js" type="module"></script>
+</head>
+<body style="background-color: black">
+  <header style="background-color: black">
+    <div class="flex1">
+      <div class="image">
+        <img src="../static/images/logo.png" />
+      </div>
+      <div class="other-side" style="display: flex">
+        <span class="nav" style="display: flex">
+          <a href="{{ url_for('index') }}" class="navb">Home</a>
+          <a class="navb">Dashboard</a>
+        </span>
+        <div class="auth">
+          {% if logged_in %}
+          <a href="{{ url_for('logout') }}" class="log-button">Logout</a>
+          {% else %}
+          <a href="{{ url_for('login') }}" class="log-button">Login</a>
+          <a href="{{ url_for('signup') }}" class="log-button">SignUp</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <hr />
+  <div class="back">
+    <div class="masked">
+      <div class="container" style="color: white">
+        <div class="scroll">
+          <h1 style="margin-top:0px; padding-top: 80px; padding-bottom: 40px; font-size: 4em;" class="decor">My DashBoard</h1>
+          <!-- Display Firebase real-time data here -->
+          <div id="realtime-data" style="color: white" class="decor2"></div>
+          <h1 class="decor2" style="text-align: center; width: 100%; margin-top: 20px;">Activity</h2>
+          <button id="video" class="log-button">View</button>
+          <button id="stop" class="log-button">Stop</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var stopFlag = false; // Flag to track if the execution should be stopped
+  
+    function executeObjectDetection() {
+      // Reset the stop flag
+      stopFlag = false;
+  
+      // Make an AJAX POST request to the Flask route
+      $.post('/execute-object-detection', function (data) {
+        // Display an alert when the script is executed successfully
+        alert('Object detection script executed successfully');
+        // Log a message to the console
+        console.log("Script execution");
+      })
+      .fail(function() {
+        // Display an alert if there is an error
+        alert('Error executing object detection script');
+      });
+    }
+  
+    // Function to stop the execution
+    function stopExecution() {
+      stopFlag = true;
+      // Make an AJAX POST request to stop the execution
+      $.post('/stop-execution', function (data) {
+        // Display an alert when the execution is stopped successfully
+        alert('Execution stopped successfully');
+        // Log a message to the console
+        console.log("Execution stopped");
+      })
+      .fail(function() {
+        // Display an alert if there is an error
+        alert('Error stopping execution');
+      });
+    }
+  
+    // Attach the functions to the click events of the buttons
+    $(document).ready(function () {
+      $('#video').click(function () {
+        executeObjectDetection();
+      });
+  
+      $('#stop').click(function () {
+        stopExecution();
+      });
+    });
+  </script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+
+    // Initialize Firebase with project configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyC4L6r0tm7uLKwY0FMf2ndHseUO0P_Yc7Y",
+        authDomain: "smartagriculture-133c9.firebaseapp.com",
+        databaseURL: "https://smartagriculture-133c9-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "smartagriculture-133c9",
+        storageBucket: "smartagriculture-133c9.appspot.com",
+        messagingSenderId: "926643071522",
+        appId: "1:926643071522:web:707c341cddacfd9394f87b",
+        measurementId: "G-4ZWG1PMWGZ",
+      };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    let firstValueSkipped = false;
+
+    // Get real-time data from Firebase and display it
+    const realtimeDataDiv = document.getElementById("realtime-data");
+    onValue(ref(database, '/'), (snapshot) => {
+      const data = snapshot.val().sensorData;
+      console.log(data);
+      // Clear previous content
+      realtimeDataDiv.innerHTML = '';
+      // Display each key-value pair separately
+      for (const [key, value] of Object.entries(data)) {
+        if (!firstValueSkipped) {
+          firstValueSkipped = true;
+          continue; // Skip the first value
+        }
+
+        const keyValueContainer = document.createElement('div');
+        keyValueContainer.className = 'key-value-container';
+
+        // Create key-value pair element
+        const keyValueElement = document.createElement('div');
+        keyValueElement.className = 'key-value';
+        keyValueElement.textContent = `${key}: ${value}`;
+        
+
+        // Create container for canvas and set its height
+        const canvasContainer = document.createElement('div');
+        canvasContainer.style.height = '200px'; // Set a fixed height for the container
+
+        // Create canvas element for gauge meter
+        const canvas = document.createElement('canvas');
+        canvas.width = 300;
+        canvas.height = 200; // Set a fixed height for the canvas
+        canvas.id = `${key}-gauge`;
+        canvasContainer.appendChild(canvas);
+
+        keyValueContainer.appendChild(canvasContainer);
+
+        keyValueContainer.appendChild(keyValueElement);
+
+        realtimeDataDiv.appendChild(keyValueContainer);
+
+        // Create the chart
+        const chartCtx = canvas.getContext('2d');
+        const gaugeChart = new Chart(chartCtx, {
+          type: 'doughnut',
+          data: {
+            labels: [key],
+            datasets: [{
+              data: [Math.max(value, 0), 100 - Math.max(value, 0)], // Ensure value is non-negative
+              backgroundColor: ['rgb(191, 95, 255)', 'rgba(0, 0, 0, 0.4)'],
+              borderWidth: 0,
+              textColor: ['rgb(255,255,255)']
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutoutPercentage: 85,
+            rotation: -90,
+            circumference: 180,
+            tooltips: {
+              enabled: false
+            },
+            legend: {
+              display: false
+            },
+            animation: {
+              animateRotate: true,
+              animateScale: false
+            },
+            title: {
+              display: true,
+              text: key,
+              fontSize: 16
+            }
+          }
+        });
+      }
+    });
+  </script>
+  
+</body>
+</html>

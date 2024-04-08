@@ -1,0 +1,537 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+
+body{
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+}
+
+h1,h2{
+    color: rgb(0, 93, 67);
+}
+
+header{
+    padding: 0px 3%;
+    height: fit-content;
+    min-height: 70px;
+    z-index: 9999;
+}
+
+header img{
+    width: 100%;
+    min-width: 80px;
+    max-width: 150px;
+}
+.image{
+    flex-basis: 25%;
+    padding-top: 15px;
+}
+
+.flex{
+    display: flex;
+}
+
+.flex1{
+    display: flex;
+    justify-content: space-between;
+    max-width: 1380px;
+    margin: auto;
+}
+
+.nav{
+    flex-basis: 20%;
+    cursor: pointer;
+    margin: 2px 1%;
+    justify-content: right;
+}
+
+.other-side{
+    flex-basis: 75%;
+    justify-content: right;
+    font-size: larger;
+    padding: 22px 0px;
+}
+
+.navb{
+    margin: 5px 8px;
+    padding: 0px;
+    text-decoration: none;
+    color: rgb(0, 73, 0);
+    font-weight: 540;
+}
+
+a{
+  text-decoration: none;
+}
+
+a:active{
+  color: darkgreen;
+  transform: translateY(1px);
+  transition: transform 34ms;
+}
+
+.log-button{
+    padding: 8px 15px;
+    border-radius: 10px;
+    border: 1px;
+    margin: 0px 3px;
+    font-size: large;
+    background-image: linear-gradient(135deg, rgb(128, 196, 116), rgb(89, 143, 81), rgb(151, 212, 141) );
+}
+
+.log-button:hover{
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-image: linear-gradient(135deg, rgb(149, 212, 138), rgb(89, 143, 81), rgb(151, 212, 141) );
+}
+
+.log-button:active{
+  transform: translateY(5px);
+  transition: transform 34ms;
+}
+
+.container{
+    padding: 0px 3%;
+    max-width: 1380px;
+    margin: auto;
+    position: relative;
+    z-index: 1;
+}
+
+.container h1{
+    text-align: center;
+}
+
+/* Now Corousal Code */
+.carousel-wrapper {
+    width: 95%;
+    margin: 50px 0px;
+    border-radius: 10px;
+  }
+  
+  .carousel-container {
+    width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+  
+  .carousel {
+    display: flex;
+    width: fit-content;
+    animation: sliding 10s infinite;
+    border-radius: 10px;
+  }
+  .carousel div {
+    width: 1400px;
+    height: 50vh;
+    background-size:cover ;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+  }
+
+.mask{
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    height: 50vh;
+}
+  .carousel:hover {
+    animation-play-state: paused;
+  }
+  .carousel .image-one {
+    background-image: url("https://www.villagesquare.in/wp-content/uploads/2018/10/Agri-1024x550.jpg");
+  }
+  .carousel .image-two {
+    background-image: url("https://solarpeak.earth/wp-content/uploads/2023/04/agri-img3.jpg");
+  }
+  .carousel .image-three {
+    background-image: url("https://t3.ftcdn.net/jpg/03/68/43/08/360_F_368430854_tYpa5RNRReSruxIWEsjxk21FbXCJ2c0l.jpg");
+  }
+  
+  @keyframes sliding {
+    30% {
+      transform: translateX(0);
+    }
+    35% {
+      transform: translateX(-33.33%);
+    }
+    65% {
+      transform: translateX(-33.33%);
+    }
+    70% {
+      transform: translateX(-66.66%);
+    }
+    98% {
+      transform: translateX(-66.66%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+.news{
+    padding: 1em 2em;
+    border: 1px solid rgb(197, 197, 197);
+    border-radius: 10px;
+    flex-basis: 30%;
+    background-color: rgba(166, 251, 220, 0.878);
+    margin-right: 10px;
+    color: black;
+}
+
+#news-list{
+    list-style: square;
+    line-height: 1.5;
+    cursor: pointer;
+    padding: 10px 0px;
+    height: fit-content;
+    overflow-y: scroll;
+    text-align: justify;
+}
+#news-list li{
+    border-bottom: 1px solid rgb(0, 53, 10);
+    list-style: square;
+    padding: 20px 0px;
+}
+#news-list li :hover{
+    color: green;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+#scheme-list{
+    list-style: square;
+    line-height: 1.5;
+    cursor: pointer;
+    padding: 10px 0px;
+    height: fit-content;
+    max-height: 120vh;
+    overflow-y: scroll;
+    text-align: justify;
+}
+
+#scheme-list li{
+    border-bottom: 1px solid rgb(102, 119, 104);
+    list-style: square;
+    padding: 20px 0px;
+}
+
+.helps{
+    /* flex-basis: 65%; */
+    margin: 5px 0px;
+    width: 60%;
+}
+
+.schemes{
+    padding: 1em 2em;
+    border: 1px solid rgb(197, 197, 197);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 .25em .35em #aca9a9d8,0 .5em 1.4em #f9f3f3e2!important;
+    background: rgba(88, 88, 88, 0.306);
+    color: rgb(255, 255, 255);
+    opacity: 0.8;
+}
+
+#scheme-list h2{
+    font-weight: 600;
+    font-size: large;
+}
+
+#crop-list {
+    display: none;
+    list-style-type: none;
+    padding: 0;
+}
+#crop-list li {
+    margin-bottom: 5px;
+    padding: 10px;
+    border-bottom: 1px solid rgb(0, 71, 0);
+}
+
+.msp{
+    height: fit-content;
+    min-height: 30vh;
+}
+
+.msp input{
+    width: 200px;
+    margin: 10px 0px 0px 0px;
+    padding: 8px 12px;
+    border-radius: 4px ;
+}
+
+.msp ul{
+    width: 200px;
+    height: 30vh;
+    overflow: scroll;
+    background-color: rgb(108, 155, 108);
+    margin: 0px;
+    cursor: pointer;
+    border-radius: 0px 0px 4px 4px;
+}
+
+.mspdata{
+  margin: 20px 0px;
+}
+
+.back{
+  background-image: url("/static/images/bgback.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 88vh;
+  box-shadow: 200px 150px 400px rgba(0,0,0,0.9) inset;
+  width: 100%;
+  padding: 0;
+  position: fixed;
+  top: 100px;
+  left: 0;
+}
+
+.masked{
+  background-image: linear-gradient(rgb(0,0,0,0.6), rgb(0,0,0,0.4), rgb(0,0,0,0.9));
+  height: 88vh;
+  margin: 0;
+  z-index: 2;
+  width: 100%;
+  position: fixed;
+  top: 100px;
+  left: 0;
+}
+
+
+
+.scroll {
+  position: absolute;
+  top: 0; /* Adjust this value according to the height of the fixed elements */
+  left: 15;
+  width: 100%;
+  height: calc(100vh - 100px); /* Adjusted height to fit between fixed elements */
+  overflow-y: auto;
+  z-index: 3; /* Ensure this value is higher than other elements */
+  color: white;
+  cursor: pointer;
+}
+
+.masked:hover{
+  cursor: url('../static/images/Agro.png'), pointer;
+}
+
+.decor{
+  background: linear-gradient(to right, rgb(255, 196, 0),rgb(201, 147, 0),rgb(0, 255, 217),rgb(201, 147, 0),rgb(201, 147, 0));
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+
+.decor2{
+  width: fit-content;
+  background: linear-gradient(to right,rgb(20, 212, 183),rgb(191, 95, 255));
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+
+.login-container{
+  margin: auto;
+  position: relative;
+  right: 0px;
+  width: fit-content;
+  padding: 4px 40px 40px 40px;
+  background-color: rgb(252, 255, 239, 0.7);
+  border-radius: 4%;
+  margin-top: 40px;
+  margin-right: 100px;
+  box-shadow: 1px 2px 1px solid white;
+}
+
+.login-container input{
+  width: 40%;
+  min-width: 300px;
+  padding: 8px 5px;
+  font-size: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.marg{
+  margin-bottom: 80px;
+}
+
+#realtime-data{
+  display: grid;
+  grid: 300px / auto auto auto;
+  grid-column-gap: 50px;
+  grid-row-gap: 4rem;
+  padding: 4%;
+  text-align: center;
+  font-size: 22px;
+  width: fit-content;
+  margin: auto;
+}
+
+.key-value-container{
+  padding: 30px;
+  box-shadow: 0 .25em .35em #aca9a9d8,0 .5em 0.8em #f9f3f3e2!important;
+  background: rgba(88, 88, 88, 0.306);
+  border-radius: 12px;
+  color: white;
+}
+
+.key-value-container:hover & :not(:hover){
+  scale: 1.8;
+  background: rgb(0,0,0,0.8);
+}
+
+.key-value{
+  margin: 30px 0px;
+}
+
+.param{
+  color: #c6e2ff;
+  animation: neon .08s ease-in-out infinite alternate;
+}
+
+@keyframes neon {
+  from {
+    text-shadow:
+    0 0 6px rgba(202,228,225,0.92),
+    0 0 30px rgba(202,228,225,0.34),
+    0 0 12px rgba(30,132,242,0.52),
+    0 0 21px rgba(30,132,242,0.92),
+    0 0 34px rgba(30,132,242,0.78),
+    0 0 54px rgba(30,132,242,0.92);
+  }
+  to {
+    text-shadow:
+    0 0 6px rgba(202,228,225,0.98),
+    0 0 30px rgba(202,228,225,0.42),
+    0 0 12px rgba(30,132,242,0.58),
+    0 0 22px rgba(30,132,242,0.84),
+    0 0 38px rgba(30,132,242,0.88),
+    0 0 60px rgba(30,132,242,1);
+  }
+}
+
+  @media screen and (max-width: 560px) {
+    .flex1{
+      flex-direction: column;
+  }
+  .flex{
+      flex-direction: column;
+  }
+    .carousel-wrapper {
+      width: 100%;
+      height: 210px;
+    }
+  
+    .carousel-container {
+      width: 300px;
+      height: 150px;
+    }
+  
+    .carousel {
+      width: 900px;
+    }
+    .carousel > div {
+      width: 300px;
+      height: 150px;
+    }
+    .news{
+      margin-bottom: 50px;
+    }
+  
+    @keyframes sliding {
+      30% {
+        transform: translateX(0);
+      }
+      35% {
+        transform: translateX(-300px);
+      }
+      65% {
+        transform: translateX(-300px);
+      }
+      70% {
+        transform: translateX(-300px);
+      }
+      98% {
+        transform: translateX(-300px);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+  }
+  
+
+  /* Loader CSS */
+#loader {
+    width: 50px;
+    aspect-ratio: 2;
+    --_g: no-repeat radial-gradient(circle closest-side,#000000 90%,#ffffff00);
+    background: 
+      var(--_g) 0%   50%,
+      var(--_g) 50%  50%,
+      var(--_g) 100% 50%;
+    background-size: calc(100%/3) 50%;
+    animation: l3 1s infinite linear;
+  }
+  @keyframes l3 {
+      20%{background-position:0%   0%, 50%  50%,100%  50%}
+      40%{background-position:0% 100%, 50%   0%,100%  50%}
+      60%{background-position:0%  50%, 50% 100%,100%   0%}
+      80%{background-position:0%  50%, 50%  50%,100% 100%}
+  }
+
+  #loader2 {
+    width: 50px;
+    aspect-ratio: 2;
+    --_g: no-repeat radial-gradient(circle closest-side,#ffffff 90%,#0000);
+    background: 
+      var(--_g) 0%   50%,
+      var(--_g) 50%  50%,
+      var(--_g) 100% 50%;
+    background-size: calc(100%/3) 50%;
+    animation: l3 1s infinite linear;
+  }
+  @keyframes l3 {
+      20%{background-position:0%   0%, 50%  50%,100%  50%}
+      40%{background-position:0% 100%, 50%   0%,100%  50%}
+      60%{background-position:0%  50%, 50% 100%,100%   0%}
+      80%{background-position:0%  50%, 50%  50%,100% 100%}
+  }
+
+
+
+@media(max-width:525px){
+    header{
+        padding: 2%;
+    }
+    .container{
+        padding: 2%;
+    }
+    header img{
+        max-width: 500px;
+    }
+    .image{
+        padding: 0px;
+    }
+    .other-side{
+        font-size: medium;
+    }
+    .log-button{
+        font-size: small;
+    }
+    .helps{
+      width: 70%;
+    }
+    .schemes{
+      width: 100%;
+    }
+}
+
+
+

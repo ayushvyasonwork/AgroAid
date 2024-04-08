@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <!-- Include any necessary stylesheets or scripts -->
+  <link rel="stylesheet" href="../static/style.css" />
+
+</head>
+<body style="background-color: black">
+    <header style="background-color: black">
+        <div class="flex1">
+            <div class="image">
+                <img src="../static/images/logo.png"/>
+            </div>
+            <div class="other-side" style="display: flex">
+                <span class="nav" style="display: flex">
+                    <a href="{{ url_for('index') }}" class="navb">Home</a>
+                    <a href="{{ url_for('dashboard') }}" class="navb">Dashboard</a>
+                </span>
+                <div class="auth">
+                    {% if logged_in %}
+                        <a href="{{ url_for('logout') }}" class="log-button">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="log-button">Login</a>
+                        <a href="{{ url_for('signup') }}" class="log-button">SignUp</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="back">
+        <div class="masked">
+            <div class="flex">
+                <div class="login-container">
+                    <h1 style="text-align: center; font-size: 50px;">Sign Up</h1>
+                    <form action="{{ url_for('signup') }}" method="POST">
+                        <input type="email" name="email" placeholder="Email" required><br>
+                        <input type="password" name="password" placeholder="Password" required><br>
+                        <button type="submit" class="log-button">Sign Up</button>
+                    </form>
+                </div>
+                <div>
+                    <img src="../static/images/logimg.png"s tyle="height: 60vh;" />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
