@@ -4,11 +4,12 @@ from flask_sqlalchemy import SQLAlchemy
 from newscrape import scrape_news
 from schemescrape import scrape_schemes
 from mspscrape import fetch_crop_row  # Import the function to fetch crop row
-from pygal_script import generate_semicircle_gauge_chart
-from objDetection import perform_object_detection
 import time
+import subprocess
 from datetime import datetime
 import pandas as pd
+import openai
+import os
 
 app = Flask(__name__, instance_path=r'C:\Python311\Scripts\MyPython\Practicum_IV(AgroAid)')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'  # SQLite URI
@@ -20,7 +21,6 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -52,17 +52,6 @@ def signup():
             return redirect(url_for('login'))
     return render_template('signup.html')
 
-# Assuming you have a function to fetch data from Firebase
-def fetch_data_from_firebase():
-    # Replace this with your logic to fetch data from Firebase
-    # For example:
-    data = {
-        'temperature': 25,
-        'humidity': 50,
-        'rain_value': 1,
-        'soil_moisture': 30
-    }
-    return data
 
 @app.route('/')
 def index():
@@ -95,20 +84,6 @@ def fetch_msp():
     else:
         return jsonify({'error': 'Crop not provided'}), 400
 
-@app.route('/fetch-gauge')
-def fetch_gauge():
-    # Fetch data from Firebase
-    data = fetch_data_from_firebase()
-    chart_html = ""
-    # Generate gauge chart for each parameter
-    for key, value in data.items():
-        chart_html += generate_suitable_chart(key, value)
-    return chart_html
-
-def generate_suitable_chart(key, value):
-    # Generate suitable chart based on the parameter
-    return generate_semicircle_gauge_chart(value)
-
 @app.errorhandler(404)
 def page_not_found(error):
     app.logger.error('Page not found: %s', (request.path,))
@@ -119,10 +94,25 @@ def internal_server_error(error):
     app.logger.error('Server Error: %s', (error,))
     return render_template('500.html'), 500
 
-@app.route('/execute-object-detection', methods=['POST'])
-def execute_object_detection():
-    perform_object_detection()
-    return jsonify({'message': 'Object detection script executed successfully'})
+@app.route('/get_crop', methods=['POST'])
+def get_crop():
+    try:
+        # Extract data from the request
+        data = request.json.get("data")
+        
+        # Modify the path to main.py as needed
+        main_script_path = os.path.join(os.path.dirname(__file__), 'main.py')  
+        
+        # Pass the data to the main.py script and capture the response
+        response = subprocess.run(['python', main_script_path, data], capture_output=True, text=True)
+        response_text = response.stdout.strip()  # Get the response from the stdout
+        print("Response:", response_text)  # Print the response to the console
+        
+        return jsonify(response=response_text)
+    except Exception as e:
+        return jsonify(error=str(e))
+ 
+
 
 if __name__ == '__main__':
      # Create the database tables

@@ -330,7 +330,7 @@ a:active{
 
 .decor2{
   width: fit-content;
-  background: linear-gradient(to right,rgb(20, 212, 183),rgb(191, 95, 255));
+  background: linear-gradient(to right,rgb(6, 255, 218),rgb(0, 255, 174));
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
 }
@@ -497,14 +497,31 @@ a:active{
     background-size: calc(100%/3) 50%;
     animation: l3 1s infinite linear;
   }
-  @keyframes l3 {
-      20%{background-position:0%   0%, 50%  50%,100%  50%}
-      40%{background-position:0% 100%, 50%   0%,100%  50%}
-      60%{background-position:0%  50%, 50% 100%,100%   0%}
-      80%{background-position:0%  50%, 50%  50%,100% 100%}
-  }
 
+#gpt-response h1{
+  color:rgb(0, 255, 217);
+  font-size: 27px;
+  text-align: left;
+}
 
+#gpt-response h2{
+  color: white;
+  font-size: 19px;
+  text-align: left;
+  font-weight: 500;
+}
+
+.loader {
+  width: 50px;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side,#ffffff 90%,#0000);
+  background: 
+    var(--_g) 0%   50%,
+    var(--_g) 50%  50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100%/3) 50%;
+  animation: l3 1s infinite linear;
+}
 
 @media(max-width:525px){
     header{
