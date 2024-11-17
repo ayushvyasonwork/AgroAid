@@ -14,6 +14,9 @@ AgroAid aims to bridge the gap between farmers and technological advancements by
 - **IoT Farm Monitoring**: Monitor farm conditions remotely using IoT devices for improved crop management.
 - **Data Visualization**: Visualize agricultural data using interactive charts and graphs for better insights.
 
+## Project Demo
+(https://drive.google.com/file/d/1bMRxUaDFGDaJ_zpIL-_oook08Cpl0W55/view?usp=sharing)
+
 ## Usage
 
 1. Register or login to your AgroAid account.
