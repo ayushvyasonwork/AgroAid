@@ -10,7 +10,7 @@ AgroAid aims to bridge the gap between farmers and technological advancements by
 
 - **Crop Recommendations**: Utilize AI-powered algorithms to recommend suitable crops based on soil and climate conditions.
 - **Market Analysis**: Access real-time market data and price trends to make informed selling decisions.
-- **Government Scheme Access**: Seamlessly apply for and track government agricultural schemes and subsidies.
+- **Government Scheme Access**: Seamlessly apply for and track government agricultural schemes and subsidies. These schemes are fetched on the site after live scraping from government sites.
 - **IoT Farm Monitoring**: Monitor farm conditions remotely using IoT devices for improved crop management.
 - **Data Visualization**: Visualize agricultural data using interactive charts and graphs for better insights.
 
