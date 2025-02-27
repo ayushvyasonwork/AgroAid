@@ -127,7 +127,7 @@ a:active{
   .carousel div {
     width: 1400px;
     height: 50vh;
-    background-size:cover ;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 10px;
@@ -222,9 +222,8 @@ a:active{
 }
 
 .helps{
-    /* flex-basis: 65%; */
+    flex-basis: 60%;
     margin: 5px 0px;
-    width: 60%;
 }
 
 .schemes{
@@ -364,8 +363,8 @@ a:active{
 #realtime-data{
   display: grid;
   grid: 300px / auto auto auto;
-  grid-column-gap: 50px;
-  grid-row-gap: 4rem;
+  grid-column-gap: 60px;
+  grid-row-gap: 23rem;
   padding: 4%;
   text-align: center;
   font-size: 22px;
@@ -379,42 +378,27 @@ a:active{
   background: rgba(88, 88, 88, 0.306);
   border-radius: 12px;
   color: white;
+  transition-duration: 0.5s;
+  height: fit-content;
 }
 
-.key-value-container:hover & :not(:hover){
-  scale: 1.8;
-  background: rgb(0,0,0,0.8);
+.key-value-container img{
+  height: 180px;
+  margin: 10px 0px 20px 0px;
+  max-width: 350px;
+}
+
+.key-value-container:hover{
+  scale: 1.2;
+  background: rgb(0,0,0,0.1);
+  z-index: 5;
 }
 
 .key-value{
   margin: 30px 0px;
 }
 
-.param{
-  color: #c6e2ff;
-  animation: neon .08s ease-in-out infinite alternate;
-}
 
-@keyframes neon {
-  from {
-    text-shadow:
-    0 0 6px rgba(202,228,225,0.92),
-    0 0 30px rgba(202,228,225,0.34),
-    0 0 12px rgba(30,132,242,0.52),
-    0 0 21px rgba(30,132,242,0.92),
-    0 0 34px rgba(30,132,242,0.78),
-    0 0 54px rgba(30,132,242,0.92);
-  }
-  to {
-    text-shadow:
-    0 0 6px rgba(202,228,225,0.98),
-    0 0 30px rgba(202,228,225,0.42),
-    0 0 12px rgba(30,132,242,0.58),
-    0 0 22px rgba(30,132,242,0.84),
-    0 0 38px rgba(30,132,242,0.88),
-    0 0 60px rgba(30,132,242,1);
-  }
-}
 
   @media screen and (max-width: 560px) {
     .flex1{
@@ -429,16 +413,16 @@ a:active{
     }
   
     .carousel-container {
-      width: 300px;
-      height: 150px;
+      width: 340px;
+      height: 200px;
     }
   
     .carousel {
       width: 900px;
     }
     .carousel > div {
-      width: 300px;
-      height: 150px;
+      width: 320px;
+      height: 200px;
     }
     .news{
       margin-bottom: 50px;
@@ -523,7 +507,7 @@ a:active{
   animation: l3 1s infinite linear;
 }
 
-@media(max-width:525px){
+@media(max-width:575px){
     header{
         padding: 2%;
     }
@@ -542,10 +526,16 @@ a:active{
     .log-button{
         font-size: small;
     }
-    .helps{
-      width: 70%;
+    .news{
+      width: 79%;
     }
-    .schemes{
+    .helps{
+      width: 95%;
+    }
+    .msp{
+      margin-top: 50px;
+    }
+    .carousel div{
       width: 100%;
     }
 }

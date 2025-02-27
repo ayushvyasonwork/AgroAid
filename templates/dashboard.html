@@ -16,43 +16,45 @@
 <body style="background-color: black">
   <header style="background-color: black">
     <div class="flex1">
-      <div class="image">
-        <img src="../static/images/logo.png" />
-      </div>
-      <div class="other-side" style="display: flex">
-        <span class="nav" style="display: flex">
-          <a href="{{ url_for('index') }}" class="navb">Home</a>
-          <a class="navb">Dashboard</a>
-        </span>
-        <div class="auth">
-          {% if logged_in %}
-          <a href="{{ url_for('logout') }}" class="log-button">Logout</a>
-          {% else %}
-          <a href="{{ url_for('login') }}" class="log-button">Login</a>
-          <a href="{{ url_for('signup') }}" class="log-button">SignUp</a>
-          {% endif %}
+        <div class="image">
+            <a href="{{ url_for('index') }}"><img src="../static/images/logo.png" /></a>
         </div>
-      </div>
+        <div class="other-side" style="display: flex">
+            <span class="nav" style="display: flex">
+                <a href="{{ url_for('dashboard') }}" class="navb">Dashboard</a>
+            </span>
+            <div class="auth">
+                {% if logged_in %}
+                <a href="{{ url_for('logout') }}" class="log-button">Logout</a>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="log-button">Logout</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
-  </header>
+</header>
+
+
 
   <hr />
   <div class="back">
     <div class="masked">
       <div class="container" style="color: white">
         <div class="scroll">
-          <h1 style="margin-top:0px; padding-top: 80px; padding-bottom: 40px; font-size: 4em;" class="decor">My DashBoard</h1>
+          <h1 style="margin-top:0px; padding-top: 80px; padding-bottom: 10px; font-size: 4em;" class="decor">My DashBoard</h1>
           <!-- Display Firebase real-time data here -->
           <div id="realtime-data" style="color: white" class="decor2"></div>
           <h1 class="decor2" style="text-align: center; width: 100%; margin-top: 20px;">Get your best fit Crop</h1>
-          <button class="log-button" id="getcrop" style="margin: 0px 10%;" >Get crop</button>
-          <div id="gpt-response" style="color: white; margin: 40px 10%;"></div>
+          <button class="log-button" id="getcrop" style="margin: 0px 9%;" >Get crop</button>
+          <div id="gpt-response" style="color: white; margin: 40px 9%;"></div>
+          <h1 class="decor2" style="text-align: center; width: 100%; margin-top: 20px;">Security Monitor</h1>
+          <button class="log-button" id="cam" style="margin: 0px 9%;" onclick="executePythonScript('C:\\Python311\\Scripts\\MyPython\\Practicum_IV(AgroAid)\\objDetection.py')">Record</button>
+          <div id="obj-response" style="color: white; margin: 40px 9%;"></div>
         </div>
       </div>
     </div>
   </div>
     
-
   <script>
     document.getElementById("getcrop").addEventListener("click", async () => {
         try {
@@ -87,6 +89,14 @@
         responseDiv.innerHTML = `${response}`;
     }
 </script>
+<script>
+        function executePythonScript(scriptPath) {
+  fetch(`/run-script?script=${scriptPath}`)
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+}
+</script>
 
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
@@ -98,7 +108,15 @@
 
       // Initialize Firebase with project configuration
       const firebaseConfig = {
-        
+        apiKey: "AIzaSyC4L6r0tm7uLKwY0FMf2ndHseUO0P_Yc7Y",
+        authDomain: "smartagriculture-133c9.firebaseapp.com",
+        databaseURL:
+          "https://smartagriculture-133c9-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "smartagriculture-133c9",
+        storageBucket: "smartagriculture-133c9.appspot.com",
+        messagingSenderId: "926643071522",
+        appId: "1:926643071522:web:707c341cddacfd9394f87b",
+        measurementId: "G-4ZWG1PMWGZ",
       };
 
       // Initialize Firebase
@@ -107,77 +125,84 @@
 
     // Get real-time data from Firebase and display it
     const realtimeDataDiv = document.getElementById("realtime-data");
-    onValue(ref(database, "/"), (snapshot) => {
-      const data = snapshot.val().sensorData;
-      console.log(data);
-      // Clear previous content
-      realtimeDataDiv.innerHTML = "";
-      // Display each key-value pair separately
-      for (const [key, value] of Object.entries(data)) {
-        const keyValueContainer = document.createElement("div");
-        keyValueContainer.className = "key-value-container";
+onValue(ref(database, "/"), (snapshot) => {
+  const data = snapshot.val().sensorData;
+  console.log(data);
+  // Clear previous content
+  realtimeDataDiv.innerHTML = "";
+  // Display each key-value pair separately
+  for (const [key, value] of Object.entries(data)) {
+    const keyValueContainer = document.createElement("div");
+    keyValueContainer.className = "key-value-container";
 
-        // Create key-value pair element
-        const keyValueElement = document.createElement("div");
-        keyValueElement.className = "key-value";
-        keyValueElement.textContent = `${key}: ${value}`;
+    // Create img element for the image
+    const imgElement = document.createElement("img");
+    imgElement.src = `../static/images/${key}.png`;
 
-        // Create container for canvas and set its height
-        const canvasContainer = document.createElement("div");
-        canvasContainer.style.height = "200px"; // Set a fixed height for the container
 
-        // Create canvas element for gauge meter
-        const canvas = document.createElement("canvas");
-        canvas.width = 300;
-        canvas.height = 200; // Set a fixed height for the canvas
-        canvas.id = `${key}-gauge`;
-        canvasContainer.appendChild(canvas);
+    // Create key-value pair element
+    const keyValueElement = document.createElement("div");
+    keyValueElement.className = "key-value";
+    keyValueElement.textContent = `${key}: ${value}`;
 
-        keyValueContainer.appendChild(canvasContainer);
-        keyValueContainer.appendChild(keyValueElement);
+    // Create container for canvas and set its height
+    const canvasContainer = document.createElement("div");
+    canvasContainer.style.height = "200px"; // Set a fixed height for the container
 
-        realtimeDataDiv.appendChild(keyValueContainer);
+    // Create canvas element for gauge meter
+    const canvas = document.createElement("canvas");
+    canvas.width = 300;
+    canvas.height = 200; // Set a fixed height for the canvas
+    canvas.id = `${key}-gauge`;
+    canvasContainer.appendChild(canvas);
 
-        // Create the chart
-        const chartCtx = canvas.getContext("2d");
-        const gaugeChart = new Chart(chartCtx, {
-          type: "doughnut",
-          data: {
-            labels: [key],
-            datasets: [
-              {
-                data: [Math.max(value, 0), 100 - Math.max(value, 0)], // Ensure value is non-negative
-                backgroundColor: ["rgb(191, 95, 255)", "rgba(0, 0, 0, 0.4)"],
-                borderWidth: 0,
-                textColor: ["rgb(255,255,255)"],
-              },
-            ],
+    keyValueContainer.appendChild(imgElement); // Append img element
+    keyValueContainer.appendChild(canvasContainer);
+    keyValueContainer.appendChild(keyValueElement);
+
+    realtimeDataDiv.appendChild(keyValueContainer);
+
+    // Create the chart
+    const chartCtx = canvas.getContext("2d");
+    const gaugeChart = new Chart(chartCtx, {
+      type: "doughnut",
+      data: {
+        labels: [key],
+        datasets: [
+          {
+            data: [Math.max(value, 0), 100 - Math.max(value, 0)], // Ensure value is non-negative
+            backgroundColor: ["rgb(0, 255, 222)", "rgba(0, 0, 0, 0.4)"],
+            borderWidth: 0,
+            textColor: ["rgb(255,255,255)"],
           },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutoutPercentage: 85,
-            rotation: -90,
-            circumference: 180,
-            tooltips: {
-              enabled: false,
-            },
-            legend: {
-              display: false,
-            },
-            animation: {
-              animateRotate: true,
-              animateScale: false,
-            },
-            title: {
-              display: true,
-              text: key,
-              fontSize: 16,
-            },
-          },
-        });
-      }
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutoutPercentage: 85,
+        rotation: -90,
+        circumference: 180,
+        tooltips: {
+          enabled: false,
+        },
+        legend: {
+          display: false,
+        },
+        animation: {
+          animateRotate: true,
+          animateScale: true,
+        },
+        title: {
+          display: true,
+          text: key,
+          fontSize: 16,
+        },
+      },
     });
+  }
+});
+
 
     </script>
   </body>

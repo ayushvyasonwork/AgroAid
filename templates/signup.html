@@ -12,19 +12,18 @@
     <header style="background-color: black">
         <div class="flex1">
             <div class="image">
-                <img src="../static/images/logo.png"/>
+                <a href="{{ url_for('index') }}"><img src="../static/images/logo.png" /></a>
             </div>
             <div class="other-side" style="display: flex">
                 <span class="nav" style="display: flex">
-                    <a href="{{ url_for('index') }}" class="navb">Home</a>
                     <a href="{{ url_for('dashboard') }}" class="navb">Dashboard</a>
                 </span>
                 <div class="auth">
                     {% if logged_in %}
-                        <a href="{{ url_for('logout') }}" class="log-button">Logout</a>
+                    <a href="{{ url_for('logout') }}" class="log-button">Logout</a>
                     {% else %}
-                        <a href="{{ url_for('login') }}" class="log-button">Login</a>
-                        <a href="{{ url_for('signup') }}" class="log-button">SignUp</a>
+                    <a href="{{ url_for('login') }}" class="log-button">Login</a>
+                    <a href="{{ url_for('signup') }}" class="log-button">SignUp</a>
                     {% endif %}
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import sys
 import google.generativeai as genai
 
-GOOGLE_API_KEY = 
+GOOGLE_API_KEY = "AIzaSyCKGUJProjX_28rLuun_TEtCv5_pHsCrUU"
 genai.configure(api_key=GOOGLE_API_KEY)
 
 model = genai.GenerativeModel('gemini-pro')
@@ -25,6 +25,8 @@ def beautify_response(response):
         else:
             beautified_response += f"{line.strip()}<br>"
     beautified_response += "</p>"
+     # Remove '*' characters from the response
+    beautified_response = beautified_response.replace('*', '')
     return beautified_response
 
 if __name__ == "__main__":
