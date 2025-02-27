@@ -12,7 +12,10 @@ import openai
 import os
 import secrets
 
-app = Flask(__name__, instance_path=r'C:\Python311\Scripts\MyPython\Practicum_IV(AgroAid)')
+# Absolute path to your 'instance' directory
+instance_path = os.path.abspath(r'C:\Python311\Scripts\MyPython\Practicum_IV(AgroAid)')
+
+app = Flask(__name__, instance_path=instance_path)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'  # SQLite URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Generate a secure random key
